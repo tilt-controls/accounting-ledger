@@ -72,7 +72,7 @@ public class App {
 
 
             switch (command) {
-                case "1" -> displayMonthToDate(transactions);
+                case "1" -> displayMonthToDate();
                 case "2" -> displayPreviousMonth();
                 case "3" -> displayYearToDate();
                 case "4" -> displayPreviousYear();
@@ -184,7 +184,7 @@ public class App {
     }
 
     // reports screen options
-    public static void  displayMonthToDate(ArrayList<Transaction> transactions) {
+    public static void  displayMonthToDate() {
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
@@ -206,7 +206,12 @@ public class App {
         pressEnterToContinue();
     }
     public static void  displayYearToDate() {
-        System.out.println("TODO: Display Year to Date");
+        LocalDate currentDate = LocalDate.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getYear() == currentDate.getYear()) {
+                System.out.println(transaction.toCSV());
+            }
+        }
         pressEnterToContinue();
     }
     public static void  displayPreviousYear() {
