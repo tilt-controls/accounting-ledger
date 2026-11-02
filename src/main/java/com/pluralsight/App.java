@@ -5,6 +5,8 @@ import java.io.*;
 
 public class App {
     static Scanner scanner = new Scanner(System.in);
+    static ArrayList<Transaction> transactions = new ArrayList<>();
+
     public static void main(String[] args) {
         runHomeScreen();
     }
@@ -149,6 +151,7 @@ public class App {
         System.out.println("TODO: Search Vendor");
         pressEnterToContinue();
     }
+
     public static void pressEnterToContinue() {
         System.out.println();
         System.out.print("Press Enter to go back to the menu...");
