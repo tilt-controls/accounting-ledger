@@ -1,11 +1,12 @@
 package com.pluralsight;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.*;
 import java.io.*;
 
 public class App {
     static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Transaction> transactions = new ArrayList<>();
+    static ArrayList<Transaction> transactions = loadTransactions();
 
     public static void main(String[] args) {
         runHomeScreen();
@@ -46,7 +47,7 @@ public class App {
             System.out.print("Enter a command: ");
             command = scanner.nextLine().trim().toUpperCase();
         switch (command) {
-            case "A" -> displayAll();
+            case "A" -> displayAll(transactions);
             case "D" -> displayDeposits();
             case "P" -> displayPayments();
             case "R" -> runReportScreen();
@@ -112,15 +113,34 @@ public class App {
     }
 
     public static void addDeposit() {
-        System.out.println("TODO: Add Deposit");
+        // format date for deposit
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        // gather rest of info and return error if invalid
+        String description = promptForString("Enter description: ");
+        String vendor = promptForString("Enter vendor: ");
+        Double amount = promptForDouble("Enter amount: ");
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
+            writer.write(currentDate.format(dateFormat) + "|" + currentTime.format(timeFormat) + "|" + description + "|" + vendor + "|" + amount + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Your deposit has been added to the database!");
         pressEnterToContinue();
     }
     public static void makePayment() {
         System.out.println("TODO: Make Payment");
         pressEnterToContinue();
     }
-    public static void displayAll() {
-        System.out.println("TODO: Display All");
+    public static void displayAll(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.toCSV());
+        }
         pressEnterToContinue();
     }
     public static void displayDeposits() {
@@ -150,6 +170,30 @@ public class App {
     public static void  searchVendor() {
         System.out.println("TODO: Search Vendor");
         pressEnterToContinue();
+    }
+
+    public static double promptForDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Double.parseDouble(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+            }
+        }
+    }
+    public static String promptForString(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                System.out.println("This can't be blank.");
+            } else if (input.contains("|")) {
+                System.out.println("Please don't use the | character.");
+            } else {
+                return input;
+            }
+        }
     }
 
     public static void pressEnterToContinue() {
