@@ -215,7 +215,13 @@ public class App {
         pressEnterToContinue();
     }
     public static void  displayPreviousYear() {
-        System.out.println("TODO: Display Previous Year");
+        LocalDate currentDate = LocalDate.now();
+        LocalDate previousDate = currentDate.minusYears(1);
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getYear() == previousDate.getYear()) {
+                System.out.println(transaction.toCSV());
+            }
+        }
         pressEnterToContinue();
     }
     public static void  searchVendor() {
