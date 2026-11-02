@@ -225,7 +225,17 @@ public class App {
         pressEnterToContinue();
     }
     public static void  searchVendor() {
-        System.out.println("TODO: Search Vendor");
+        boolean vendorFound = false;
+        String vendor = promptForString("Enter vendor: ");
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(transaction.toCSV());
+                vendorFound = true;}
+        }
+        if (!vendorFound) {
+            System.out.println("Vendor not found!");
+        }
         pressEnterToContinue();
     }
 
