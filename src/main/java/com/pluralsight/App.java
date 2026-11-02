@@ -38,7 +38,7 @@ public class App {
         String command;
         do {
             System.out.println();
-            System.out.println("=== Home ===");
+            System.out.println("=== Ledger ===");
             System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
@@ -48,8 +48,8 @@ public class App {
             command = scanner.nextLine().trim().toUpperCase();
         switch (command) {
             case "A" -> displayAll(transactions);
-            case "D" -> displayDeposits();
-            case "P" -> displayPayments();
+            case "D" -> displayDeposits(transactions);
+            case "P" -> displayPayments(transactions);
             case "R" -> runReportScreen();
             case "H" -> System.out.println("Back to Home");
             default -> System.out.println("Unknown Command! Try again.");
@@ -165,12 +165,18 @@ public class App {
         }
         pressEnterToContinue();
     }
-    public static void displayDeposits() {
-        System.out.println("TODO: Display Deposits");
+    public static void displayDeposits(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() >= 0)
+                System.out.println(transaction.toCSV());
+        }
         pressEnterToContinue();
     }
-    public static void displayPayments() {
-        System.out.println("TODO: Display Payments");
+    public static void displayPayments(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() <= 0)
+                System.out.println(transaction.toCSV());
+        }
         pressEnterToContinue();
     }
     public static void  displayMonthToDate() {
