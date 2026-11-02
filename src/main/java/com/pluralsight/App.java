@@ -12,6 +12,7 @@ public class App {
         runHomeScreen();
     }
 
+    // all user screens
     public static void runHomeScreen() {
         String command;
         do {
@@ -21,7 +22,7 @@ public class App {
             System.out.println("P) Make Payment(Debit)");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
-            System.out.print("Enter a command: ");
+            System.out.print("Enter a command: \n");
             command = scanner.nextLine().trim().toUpperCase();
 
 
@@ -44,14 +45,14 @@ public class App {
             System.out.println("P) Payments");
             System.out.println("R) Reports");
             System.out.println("H) Home");
-            System.out.print("Enter a command: ");
+            System.out.print("Enter a command: \n");
             command = scanner.nextLine().trim().toUpperCase();
         switch (command) {
             case "A" -> displayAll(transactions);
             case "D" -> displayDeposits(transactions);
             case "P" -> displayPayments(transactions);
             case "R" -> runReportScreen();
-            case "H" -> System.out.println("Back to Home");
+            case "H" -> System.out.println("Back to Home...");
             default -> System.out.println("Unknown Command! Try again.");
         }
         } while (!command.equals("H"));
@@ -59,7 +60,6 @@ public class App {
     public static void runReportScreen() {
         String command;
         do {
-            System.out.println();
             System.out.println("=== Reports ===");
             System.out.println("1) Month to Date");
             System.out.println("2) Previous Month");
@@ -67,7 +67,7 @@ public class App {
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
             System.out.println("0) Back");
-            System.out.print("Enter a command: ");
+            System.out.print("Enter a command: \n");
             command = scanner.nextLine().trim().toUpperCase();
 
 
@@ -78,16 +78,16 @@ public class App {
                 case "4" -> displayPreviousYear();
                 case "5" -> searchVendor();
                 case "0" -> System.out.println("Returning...");
-                default -> System.out.println("Unknown Command! Try again.");
+                default -> System.out.println("Unknown Command! Try again.\n");
             }
         } while (!command.equals("0"));
     }
 
+    // creating array list from transactions file
     public static ArrayList<Transaction> getTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         return transactions;
     }
-
     private static ArrayList<Transaction> loadTransactions() {
         ArrayList<Transaction> transactions = getTransactions();
         try {
@@ -164,21 +164,21 @@ public class App {
     // ledger screen options
     public static void displayAll(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
-            System.out.println(transaction.toCSV());
+            System.out.println(transaction.toString());
         }
         pressEnterToContinue();
     }
     public static void displayDeposits(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() >= 0)
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
         }
         pressEnterToContinue();
     }
     public static void displayPayments(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() <= 0)
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
         }
         pressEnterToContinue();
     }
@@ -189,7 +189,7 @@ public class App {
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
             transaction.getDate().getYear() == currentDate.getYear()) {
-            System.out.println(transaction.toCSV());
+            System.out.println(transaction.toString());
             }
         }
         pressEnterToContinue();
@@ -200,7 +200,7 @@ public class App {
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == previousDate.getMonthValue() &&
                     transaction.getDate().getYear() == previousDate.getYear()) {
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
             }
         }
         pressEnterToContinue();
@@ -209,7 +209,7 @@ public class App {
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == currentDate.getYear()) {
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
             }
         }
         pressEnterToContinue();
@@ -219,7 +219,7 @@ public class App {
         LocalDate previousDate = currentDate.minusYears(1);
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == previousDate.getYear()) {
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
             }
         }
         pressEnterToContinue();
@@ -230,7 +230,7 @@ public class App {
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
-                System.out.println(transaction.toCSV());
+                System.out.println(transaction.toString());
                 vendorFound = true;}
         }
         if (!vendorFound) {

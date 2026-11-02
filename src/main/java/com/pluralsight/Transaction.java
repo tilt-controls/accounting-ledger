@@ -59,4 +59,14 @@ public class Transaction {
     public String toCSV() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "\n";
     }
+
+
+    public String toString() {
+        return String.format("""
+               Date: %s, %s
+               Description: %s
+               Vendor: %s
+               Amount: %s
+               """, date, time, description, vendor, amount);
+    }
 }
