@@ -195,7 +195,14 @@ public class App {
         pressEnterToContinue();
     }
     public static void  displayPreviousMonth() {
-        System.out.println("TODO: Display Previous Month");
+        LocalDate currentDate = LocalDate.now();
+        LocalDate previousDate = currentDate.minusMonths(1);
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getMonthValue() == previousDate.getMonthValue() &&
+                    transaction.getDate().getYear() == previousDate.getYear()) {
+                System.out.println(transaction.toCSV());
+            }
+        }
         pressEnterToContinue();
     }
     public static void  displayYearToDate() {
