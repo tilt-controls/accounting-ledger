@@ -72,7 +72,7 @@ public class App {
 
 
             switch (command) {
-                case "1" -> displayMonthToDate();
+                case "1" -> displayMonthToDate(transactions);
                 case "2" -> displayPreviousMonth();
                 case "3" -> displayYearToDate();
                 case "4" -> displayPreviousYear();
@@ -112,6 +112,7 @@ public class App {
         return transactions;
     }
 
+    // home screen options
     public static void addDeposit() {
         // format date for deposit
         LocalDate currentDate = LocalDate.now();
@@ -159,6 +160,8 @@ public class App {
         System.out.println("Your payment has been added to the database!");
         pressEnterToContinue();
     }
+
+    // ledger screen options
     public static void displayAll(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
             System.out.println(transaction.toCSV());
@@ -179,8 +182,16 @@ public class App {
         }
         pressEnterToContinue();
     }
-    public static void  displayMonthToDate() {
-        System.out.println("TODO: Display Month to Date");
+
+    // reports screen options
+    public static void  displayMonthToDate(ArrayList<Transaction> transactions) {
+        LocalDate currentDate = LocalDate.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
+            transaction.getDate().getYear() == currentDate.getYear()) {
+            System.out.println(transaction.toCSV());
+            }
+        }
         pressEnterToContinue();
     }
     public static void  displayPreviousMonth() {
