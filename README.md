@@ -25,7 +25,7 @@ It will show the user payments and deposits, filtering by date, by vendor, or al
 
 ## Screenshots
 
-![The home screen](!(images/Screenshot%202026-11-02%20at%203.16.39%E2%80%AFPM.png))
+![The home screen](![HomeScreen.png](images/HomeScreen.png))
 
 ![Deposit Questions](![Deposit Questions.png](images/Deposit%20Questions.png))
 
