@@ -121,7 +121,7 @@ public class App {
         // gather rest of info and return error if invalid
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
-        Double amount = promptForDouble("Enter amount: ");
+        Double amount = promptForDouble("Enter deposit amount: ");
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
@@ -134,7 +134,29 @@ public class App {
         pressEnterToContinue();
     }
     public static void makePayment() {
-        System.out.println("TODO: Make Payment");
+        // format date for deposit
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        // gather rest of info and return error if invalid
+        String description = promptForString("Enter description: ");
+        String vendor = promptForString("Enter vendor: ");
+        Double amount = promptForDouble("Enter payment amount: ");
+        while (amount >= 0) {
+            amount = promptForDouble("""
+                    Error! Amount must be negative.
+                    Try again:  """);
+        }
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
+            writer.write(currentDate.format(dateFormat) + "|" + currentTime.format(timeFormat) + "|" + description + "|" + vendor + "|" + amount + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Your payment has been added to the database!");
         pressEnterToContinue();
     }
     public static void displayAll(ArrayList<Transaction> transactions) {
