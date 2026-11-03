@@ -156,10 +156,12 @@ public class App {
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
         Double amount = promptForDouble("Enter payment amount: ");
-        while (amount > 0) {
+        while (amount == 0) {
             amount = promptForDouble("""
-                    Error! Amount must be negative.
+                    Error! Cannot be 0.
                     Try again:  """);
+        } if (amount > 0) {
+            amount *= -1;
         }
 
         saveTransaction(description, vendor, amount);
