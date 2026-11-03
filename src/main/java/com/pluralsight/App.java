@@ -1,4 +1,5 @@
 package com.pluralsight;
+
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.*;
@@ -19,7 +20,7 @@ public class App {
             System.out.println();
             System.out.println("=== Home ===");
             System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment(Debit)");
+            System.out.println("P) Make Payment (Debit)");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
             System.out.print("Enter a command: \n");
@@ -35,6 +36,7 @@ public class App {
             }
         } while (!command.equals("X"));
     }
+
     public static void runLedgerScreen() {
         String command;
         do {
@@ -47,16 +49,17 @@ public class App {
             System.out.println("H) Home");
             System.out.print("Enter a command: \n");
             command = scanner.nextLine().trim().toUpperCase();
-        switch (command) {
-            case "A" -> displayAll(transactions);
-            case "D" -> displayDeposits(transactions);
-            case "P" -> displayPayments(transactions);
-            case "R" -> runReportScreen();
-            case "H" -> System.out.println("Back to Home...");
-            default -> System.out.println("Unknown Command! Try again.");
-        }
+            switch (command) {
+                case "A" -> displayAll(transactions);
+                case "D" -> displayDeposits(transactions);
+                case "P" -> displayPayments(transactions);
+                case "R" -> runReportScreen();
+                case "H" -> System.out.println("Back to Home...");
+                default -> System.out.println("Unknown Command! Try again.");
+            }
         } while (!command.equals("H"));
     }
+
     public static void runReportScreen() {
         String command;
         do {
@@ -67,7 +70,7 @@ public class App {
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
             System.out.println("0) Back");
-            System.out.print("Enter a command: \n");
+            System.out.print("Enter a command: ");
             command = scanner.nextLine().trim().toUpperCase();
 
 
@@ -88,6 +91,7 @@ public class App {
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         return transactions;
     }
+
     private static ArrayList<Transaction> loadTransactions() {
         ArrayList<Transaction> transactions = getTransactions();
         try {
@@ -112,17 +116,11 @@ public class App {
         return transactions;
     }
 
-    // home screen options
-    public static void addDeposit() {
-        // format date for deposit
+    private static void saveTransaction(String description, String vendor, Double amount) {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        // gather rest of info and return error if invalid
-        String description = promptForString("Enter description: ");
-        String vendor = promptForString("Enter vendor: ");
-        Double amount = promptForDouble("Enter deposit amount: ");
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
@@ -131,32 +129,36 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    // home screen options
+    public static void addDeposit() {
+        // gather info and return error if invalid
+        String description = promptForString("Enter description: ");
+        String vendor = promptForString("Enter vendor: ");
+        Double amount = promptForDouble("Enter deposit amount: ");
+
+        saveTransaction(description, vendor, amount);
+
         System.out.println("Your deposit has been added to the database!");
         pressEnterToContinue();
     }
+
     public static void makePayment() {
-        // format date for deposit
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        // gather rest of info and return error if invalid
+        // gather info and return error if invalid
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
         Double amount = promptForDouble("Enter payment amount: ");
-        while (amount >= 0) {
+        while (amount > 0) {
             amount = promptForDouble("""
                     Error! Amount must be negative.
                     Try again:  """);
         }
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
-            writer.write(currentDate.format(dateFormat) + "|" + currentTime.format(timeFormat) + "|" + description + "|" + vendor + "|" + amount + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveTransaction(description, vendor, amount);
+
         System.out.println("Your payment has been added to the database!");
         pressEnterToContinue();
     }
@@ -168,6 +170,7 @@ public class App {
         }
         pressEnterToContinue();
     }
+
     public static void displayDeposits(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() >= 0)
@@ -175,6 +178,7 @@ public class App {
         }
         pressEnterToContinue();
     }
+
     public static void displayPayments(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() <= 0)
@@ -184,17 +188,18 @@ public class App {
     }
 
     // reports screen options
-    public static void  displayMonthToDate() {
+    public static void displayMonthToDate() {
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
-            transaction.getDate().getYear() == currentDate.getYear()) {
-            System.out.println(transaction.toString());
+                    transaction.getDate().getYear() == currentDate.getYear()) {
+                System.out.println(transaction.toString());
             }
         }
         pressEnterToContinue();
     }
-    public static void  displayPreviousMonth() {
+
+    public static void displayPreviousMonth() {
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusMonths(1);
         for (Transaction transaction : transactions) {
@@ -205,7 +210,8 @@ public class App {
         }
         pressEnterToContinue();
     }
-    public static void  displayYearToDate() {
+
+    public static void displayYearToDate() {
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == currentDate.getYear()) {
@@ -214,7 +220,8 @@ public class App {
         }
         pressEnterToContinue();
     }
-    public static void  displayPreviousYear() {
+
+    public static void displayPreviousYear() {
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusYears(1);
         for (Transaction transaction : transactions) {
@@ -224,14 +231,16 @@ public class App {
         }
         pressEnterToContinue();
     }
-    public static void  searchVendor() {
+
+    public static void searchVendor() {
         boolean vendorFound = false;
         String vendor = promptForString("Enter vendor: ");
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transaction.toString());
-                vendorFound = true;}
+                vendorFound = true;
+            }
         }
         if (!vendorFound) {
             System.out.println("Vendor not found!");
@@ -249,6 +258,7 @@ public class App {
             }
         }
     }
+
     public static String promptForString(String prompt) {
         while (true) {
             System.out.print(prompt);
