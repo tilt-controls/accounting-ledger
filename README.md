@@ -27,7 +27,7 @@ It will show the user payments and deposits, filtering by date, by vendor, or al
 
 ![The home screen](images/img.png)
 
-![Deposit Questions](!images/Deposit%20Questions.png)
+![Deposit Questions](images/Deposit%20Questions.png)
 
 ## Interesting code
 
