@@ -139,6 +139,11 @@ public class App {
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
         Double amount = promptForDouble("Enter deposit amount: ");
+        while (amount < 0) {
+            amount = promptForDouble("""
+                    Error! Amount can't be 0 or negative.
+                    Try again: """);
+        }
 
         saveTransaction(description, vendor, amount);
 
