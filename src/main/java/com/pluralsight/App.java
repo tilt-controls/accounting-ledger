@@ -180,7 +180,7 @@ public class App {
 
     public static void displayDeposits(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() >= 0)
+            if (transaction.getAmount() > 0)
                 System.out.println(transaction.toString());
         }
         pressEnterToContinue();
@@ -188,7 +188,7 @@ public class App {
 
     public static void displayPayments(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() <= 0)
+            if (transaction.getAmount() < 0)
                 System.out.println(transaction.toString());
         }
         pressEnterToContinue();
@@ -196,60 +196,80 @@ public class App {
 
     // reports screen options
     public static void displayMonthToDate() {
+        boolean transactionFound = false;
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
                     transaction.getDate().getYear() == currentDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionFound = true;
             }
+        }
+        if (!transactionFound) {
+            System.out.println("No transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayPreviousMonth() {
+        boolean transactionFound = false;
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusMonths(1);
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == previousDate.getMonthValue() &&
                     transaction.getDate().getYear() == previousDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionFound = true;
             }
+        }
+        if (!transactionFound) {
+            System.out.println("No transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayYearToDate() {
+        boolean transactionFound = false;
         LocalDate currentDate = LocalDate.now();
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == currentDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionFound = true;
             }
+        }
+        if (!transactionFound) {
+            System.out.println("No transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayPreviousYear() {
+        boolean transactionFound = false;
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusYears(1);
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == previousDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionFound = true;
             }
+        }
+        if (!transactionFound) {
+            System.out.println("No transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void searchVendor() {
-        boolean vendorFound = false;
+        boolean transactionFound = false;
         String vendor = promptForString("Enter vendor: ");
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transaction.toString());
-                vendorFound = true;
+                transactionFound = true;
             }
         }
-        if (!vendorFound) {
+        if (!transactionFound) {
             System.out.println("Vendor not found!");
         }
         pressEnterToContinue();
