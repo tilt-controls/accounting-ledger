@@ -23,6 +23,32 @@ It will show the user payments and deposits, filtering by date, by vendor, or al
    2. Previous month/year or month/year to date
    3. Search by vendor name
 
+## Screen Map
+```
+MAIN
+|
+└── runHomeScreen()
+    |           -- D) Add Deposit    → addDeposit()
+    |           -- P) Make Payment   → makePayment()
+    |           -- L) Ledger         → runLedgerScreen()
+    |           -- X) Exit
+    |
+    └── runLedgerScreen()
+                 |      -- A) All       → displayAll()
+                 |      -- D) Deposits  → displayDeposits()
+                 |      -- P) Payments  → displayPayments()
+                 |      -- R) Reports   → runReportScreen()
+                 |      -- H) Home      → back to Home
+                 |
+                 └── runReportsScreen()
+                       |        -- 1) Month To Date    → displayMonthToDate()
+                       |        -- 2) Previous Month   → displayPreviousMonth()
+                       |        -- 3) Year To Date     → displayYearToDate()
+                       |        -- 4) Previous Year    → displayPreviousYear()
+                       |        -- 5) Search by Vendor → searchVendor()
+                       |        -- 0) Back             → back to Ledger
+```
+
 ## Screenshots
 
 ![The home screen](images/img.png)

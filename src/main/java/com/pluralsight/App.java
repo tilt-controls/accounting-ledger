@@ -159,7 +159,8 @@ public class App {
             amount = promptForDouble("""
                     Error! Cannot be 0.
                     Try again:  """);
-        } if (amount > 0) {
+        }
+        if (amount > 0) {
             amount *= -1;
         }
 
