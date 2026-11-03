@@ -129,8 +129,7 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        transactions.add(new Transaction(currentDate, currentTime, description, vendor, amount));
     }
 
     // home screen options
