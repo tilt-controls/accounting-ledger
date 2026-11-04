@@ -41,9 +41,9 @@ MAIN
                  |      -- H) Home      → back to Home
                  |
                  └── runReportsScreen()
-                       |        -- 1) Month To Date    → displayMonthToDate()
+                       |        -- 1) Month to Date    → displayMonthToDate()
                        |        -- 2) Previous Month   → displayPreviousMonth()
-                       |        -- 3) Year To Date     → displayYearToDate()
+                       |        -- 3) Year to Date     → displayYearToDate()
                        |        -- 4) Previous Year    → displayPreviousYear()
                        |        -- 5) Search by Vendor → searchVendor()
                        |        -- 0) Back             → back to Ledger

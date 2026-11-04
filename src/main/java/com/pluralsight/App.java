@@ -53,14 +53,14 @@ public class App {
                 case "A" -> displayAll(transactions);
                 case "D" -> displayDeposits(transactions);
                 case "P" -> displayPayments(transactions);
-                case "R" -> runReportScreen();
+                case "R" -> runReportsScreen();
                 case "H" -> System.out.println("Back to Home...");
                 default -> System.out.println("Unknown Command! Try again.");
             }
         } while (!command.equals("H"));
     }
 
-    public static void runReportScreen() {
+    public static void runReportsScreen() {
         String command;
         do {
             System.out.println("=== Reports ===");
@@ -79,7 +79,7 @@ public class App {
                 case "2" -> displayPreviousMonth();
                 case "3" -> displayYearToDate();
                 case "4" -> displayPreviousYear();
-                case "5" -> searchVendor();
+                case "5" -> searchByVendor();
                 case "0" -> System.out.println("Returning...");
                 default -> System.out.println("Unknown Command! Try again.\n");
             }
@@ -116,7 +116,7 @@ public class App {
         return transactions;
     }
 
-    private static void saveTransaction(String description, String vendor, Double amount) {
+    private static void saveTransaction(String description, String vendor, double amount) {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -137,8 +137,8 @@ public class App {
         // gather info and return error if invalid
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
-        Double amount = promptForDouble("Enter deposit amount: ");
-        while (amount < 0) {
+        double amount = promptForDouble("Enter deposit amount: ");
+        while (amount <= 0) {
             amount = promptForDouble("""
                     Error! Amount can't be 0 or negative.
                     Try again: """);
@@ -154,7 +154,7 @@ public class App {
         // gather info and return error if invalid
         String description = promptForString("Enter description: ");
         String vendor = promptForString("Enter vendor: ");
-        Double amount = promptForDouble("Enter payment amount: ");
+        double amount = promptForDouble("Enter payment amount: ");
         while (amount == 0) {
             amount = promptForDouble("""
                     Error! Cannot be 0.
@@ -172,105 +172,139 @@ public class App {
 
     // ledger screen options
     public static void displayAll(ArrayList<Transaction> transactions) {
+        int transactionCount = 0;
         for (Transaction transaction : transactions) {
             System.out.println(transaction.toString());
+            transactionCount++;
         }
+        System.out.println("Total transactions: " + transactionCount);
         pressEnterToContinue();
     }
 
     public static void displayDeposits(ArrayList<Transaction> transactions) {
+        int transactionCount = 0;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0)
                 System.out.println(transaction.toString());
+                transactionCount++;
         }
+        System.out.println(transactionCount + " transactions found!");
         pressEnterToContinue();
     }
 
     public static void displayPayments(ArrayList<Transaction> transactions) {
+        int transactionCount = 0;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0)
                 System.out.println(transaction.toString());
+            transactionCount++;
         }
+        System.out.println(transactionCount + " transactions found!");
+
         pressEnterToContinue();
     }
 
     // reports screen options
     public static void displayMonthToDate() {
         boolean transactionFound = false;
+        int transactionCount = 0;
         LocalDate currentDate = LocalDate.now();
+
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
                     transaction.getDate().getYear() == currentDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionCount++;
                 transactionFound = true;
             }
         }
         if (!transactionFound) {
             System.out.println("No transactions found!");
+        } else {
+            System.out.println(transactionCount + " transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayPreviousMonth() {
         boolean transactionFound = false;
+        int transactionCount = 0;
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusMonths(1);
+
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == previousDate.getMonthValue() &&
                     transaction.getDate().getYear() == previousDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionCount++;
                 transactionFound = true;
             }
         }
         if (!transactionFound) {
             System.out.println("No transactions found!");
+        } else {
+            System.out.println(transactionCount + " transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayYearToDate() {
         boolean transactionFound = false;
+        int transactionCount = 0;
         LocalDate currentDate = LocalDate.now();
+
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == currentDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionCount++;
                 transactionFound = true;
             }
         }
         if (!transactionFound) {
             System.out.println("No transactions found!");
+        } else {
+            System.out.println(transactionCount + " transactions found!");
         }
         pressEnterToContinue();
     }
 
     public static void displayPreviousYear() {
         boolean transactionFound = false;
+        int transactionCount = 0;
+
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusYears(1);
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == previousDate.getYear()) {
                 System.out.println(transaction.toString());
+                transactionCount++;
                 transactionFound = true;
             }
         }
         if (!transactionFound) {
             System.out.println("No transactions found!");
+        } else {
+            System.out.println(transactionCount + " transactions found!");
         }
         pressEnterToContinue();
     }
 
-    public static void searchVendor() {
+    public static void searchByVendor() {
+        int transactionCount = 0;
         boolean transactionFound = false;
         String vendor = promptForString("Enter vendor: ");
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transaction.toString());
+                transactionCount++;
                 transactionFound = true;
             }
         }
         if (!transactionFound) {
             System.out.println("Vendor not found!");
+        } else {
+            System.out.println(transactionCount + " transactions found!");
         }
         pressEnterToContinue();
     }
