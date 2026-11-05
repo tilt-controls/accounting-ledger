@@ -107,7 +107,7 @@ public class App {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error reading file!");
         }
         return transactions;
     }
@@ -123,7 +123,7 @@ public class App {
             writer.write(currentDate.format(dateFormat) + "|" + currentTime.format(timeFormat) + "|" + description + "|" + vendor + "|" + amount + "\n");
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error! Transaction could not be saved.");
         }
         transactions.add(new Transaction(currentDate, currentTime, description, vendor, amount));
     }
