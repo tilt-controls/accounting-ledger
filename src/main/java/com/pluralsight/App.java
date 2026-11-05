@@ -171,143 +171,112 @@ public class App {
         pressEnterToContinue();
     }
 
+    public static void displayTransactions(ArrayList<Transaction> matchedTransactions) {
+        for (Transaction matchedTransaction : matchedTransactions) {
+            System.out.println(matchedTransaction.toString());
+        }
+        if (matchedTransactions.isEmpty()) {
+            System.out.println("No transactions found.");
+        } else {
+            System.out.println(matchedTransactions.size() + " transactions found!");
+        }
+        pressEnterToContinue();
+    }
+
     // ledger screen options
     public static void displayAll(ArrayList<Transaction> transactions) {
-        int transactionCount = 0;
         for (Transaction transaction : transactions) {
             System.out.println(transaction.toString());
-            transactionCount++;
         }
-        System.out.println("Total transactions: " + transactionCount);
+        System.out.println("Total transactions: " + transactions.size());
         pressEnterToContinue();
     }
 
     public static void displayDeposits(ArrayList<Transaction> transactions) {
-        int transactionCount = 0;
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
+
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0) {
-                System.out.println(transaction.toString());
-                transactionCount++; }
+                matchedTransactions.add(transaction);
+            }
         }
-        System.out.println(transactionCount + " transactions found!");
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static void displayPayments(ArrayList<Transaction> transactions) {
-        int transactionCount = 0;
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
+
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
-                System.out.println(transaction.toString());
-            transactionCount++; }
+                matchedTransactions.add(transaction);
+            }
         }
-        System.out.println(transactionCount + " transactions found!");
-
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     // reports screen options
     public static void displayMonthToDate() {
-        boolean transactionFound = false;
-        int transactionCount = 0;
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
 
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == currentDate.getMonthValue() &&
                     transaction.getDate().getYear() == currentDate.getYear()) {
-                System.out.println(transaction.toString());
-                transactionCount++;
-                transactionFound = true;
+                    matchedTransactions.add(transaction);
             }
         }
-        if (!transactionFound) {
-            System.out.println("No transactions found!");
-        } else {
-            System.out.println(transactionCount + " transactions found!");
-        }
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static void displayPreviousMonth() {
-        boolean transactionFound = false;
-        int transactionCount = 0;
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusMonths(1);
 
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getMonthValue() == previousDate.getMonthValue() &&
                     transaction.getDate().getYear() == previousDate.getYear()) {
-                System.out.println(transaction.toString());
-                transactionCount++;
-                transactionFound = true;
+                matchedTransactions.add(transaction);
             }
         }
-        if (!transactionFound) {
-            System.out.println("No transactions found!");
-        } else {
-            System.out.println(transactionCount + " transactions found!");
-        }
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static void displayYearToDate() {
-        boolean transactionFound = false;
-        int transactionCount = 0;
         LocalDate currentDate = LocalDate.now();
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
 
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == currentDate.getYear()) {
-                System.out.println(transaction.toString());
-                transactionCount++;
-                transactionFound = true;
+                matchedTransactions.add(transaction);
             }
         }
-        if (!transactionFound) {
-            System.out.println("No transactions found!");
-        } else {
-            System.out.println(transactionCount + " transactions found!");
-        }
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static void displayPreviousYear() {
-        boolean transactionFound = false;
-        int transactionCount = 0;
-
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
         LocalDate previousDate = currentDate.minusYears(1);
+
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getYear() == previousDate.getYear()) {
-                System.out.println(transaction.toString());
-                transactionCount++;
-                transactionFound = true;
+                matchedTransactions.add(transaction);
             }
         }
-        if (!transactionFound) {
-            System.out.println("No transactions found!");
-        } else {
-            System.out.println(transactionCount + " transactions found!");
-        }
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static void searchByVendor() {
-        int transactionCount = 0;
-        boolean transactionFound = false;
+        ArrayList<Transaction> matchedTransactions = new ArrayList<>();
         String vendor = promptForString("Enter vendor: ");
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
-                System.out.println(transaction.toString());
-                transactionCount++;
-                transactionFound = true;
+                matchedTransactions.add(transaction);
             }
         }
-        if (!transactionFound) {
-            System.out.println("Vendor not found!");
-        } else {
-            System.out.println(transactionCount + " transactions found!");
-        }
-        pressEnterToContinue();
+        displayTransactions(matchedTransactions);
     }
 
     public static double promptForDouble(String prompt) {
