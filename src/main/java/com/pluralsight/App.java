@@ -122,10 +122,10 @@ public class App {
             BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true));
             writer.write(currentDate.format(dateFormat) + "|" + currentTime.format(timeFormat) + "|" + description + "|" + vendor + "|" + amount + "\n");
             writer.close();
+            transactions.add(new Transaction(currentDate, currentTime, description, vendor, amount));
         } catch (IOException e) {
             System.out.println("Error! Transaction could not be saved.");
         }
-        transactions.add(new Transaction(currentDate, currentTime, description, vendor, amount));
     }
 
     // home screen options
