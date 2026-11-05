@@ -1,6 +1,6 @@
 package com.pluralsight;
-
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     private LocalDate date;
@@ -63,7 +63,8 @@ public class Transaction {
 
 
     public String toString() {
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
         return String.format("%-12s %-10s %-25s %-20s %10.2f",
-                date, time, description, vendor, amount);
+                date, time.format(timeFormat), description, vendor, amount);
     }
 }
