@@ -185,9 +185,9 @@ public class App {
     public static void displayDeposits(ArrayList<Transaction> transactions) {
         int transactionCount = 0;
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() > 0)
+            if (transaction.getAmount() > 0) {
                 System.out.println(transaction.toString());
-                transactionCount++;
+                transactionCount++; }
         }
         System.out.println(transactionCount + " transactions found!");
         pressEnterToContinue();
@@ -196,9 +196,9 @@ public class App {
     public static void displayPayments(ArrayList<Transaction> transactions) {
         int transactionCount = 0;
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0)
+            if (transaction.getAmount() < 0) {
                 System.out.println(transaction.toString());
-            transactionCount++;
+            transactionCount++; }
         }
         System.out.println(transactionCount + " transactions found!");
 
