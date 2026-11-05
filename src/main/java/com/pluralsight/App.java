@@ -21,10 +21,10 @@ public class App {
             System.out.println();
             System.out.println("=== Home ===");
             System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment (Debit)");
+            System.out.println("P) Make Payment");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
-            System.out.print("Enter a command: \n");
+            System.out.print("Enter a command: ");
             command = scanner.nextLine().trim().toUpperCase();
 
 
@@ -65,11 +65,11 @@ public class App {
         String command;
         do {
             System.out.println("=== Reports ===");
-            System.out.println("1) Month to Date");
+            System.out.println("1) Month To Date");
             System.out.println("2) Previous Month");
-            System.out.println("3) Year to Date");
+            System.out.println("3) Year To Date");
             System.out.println("4) Previous Year");
-            System.out.println("5) Search by Vendor");
+            System.out.println("5) Search By Vendor");
             System.out.println("0) Back");
             System.out.print("Enter a command: ");
             command = scanner.nextLine().trim().toUpperCase();
@@ -88,13 +88,8 @@ public class App {
     }
 
     // creating array list from transactions file
-    public static ArrayList<Transaction> getTransactions() {
-        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-        return transactions;
-    }
-
     private static ArrayList<Transaction> loadTransactions() {
-        ArrayList<Transaction> transactions = getTransactions();
+        ArrayList<Transaction> transactions = new ArrayList<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
             String line;
