@@ -51,9 +51,9 @@ public class App {
             System.out.print("Enter a command: \n");
             command = scanner.nextLine().trim().toUpperCase();
             switch (command) {
-                case "A" -> displayAll(transactions);
-                case "D" -> displayDeposits(transactions);
-                case "P" -> displayPayments(transactions);
+                case "A" -> displayAll();
+                case "D" -> displayDeposits();
+                case "P" -> displayPayments();
                 case "R" -> runReportsScreen();
                 case "H" -> System.out.println("Back to Home...");
                 default -> System.out.println("Unknown Command! Try again.");
@@ -104,7 +104,6 @@ public class App {
                 Double amount = Double.parseDouble(tokens[4]);
                 Transaction transaction = new Transaction(date, time, description, vendor, amount);
                 transactions.add(transaction);
-
             }
         } catch (IOException e) {
             System.out.println("Error reading file!");
@@ -179,7 +178,7 @@ public class App {
     }
 
     // ledger screen options
-    public static void displayAll(ArrayList<Transaction> transactions) {
+    public static void displayAll() {
         for (Transaction transaction : transactions) {
             System.out.println(transaction.toString());
         }
@@ -187,7 +186,7 @@ public class App {
         pressEnterToContinue();
     }
 
-    public static void displayDeposits(ArrayList<Transaction> transactions) {
+    public static void displayDeposits() {
         ArrayList<Transaction> matchedTransactions = new ArrayList<>();
 
         for (Transaction transaction : transactions) {
@@ -198,7 +197,7 @@ public class App {
         displayTransactions(matchedTransactions);
     }
 
-    public static void displayPayments(ArrayList<Transaction> transactions) {
+    public static void displayPayments() {
         ArrayList<Transaction> matchedTransactions = new ArrayList<>();
 
         for (Transaction transaction : transactions) {
@@ -274,6 +273,7 @@ public class App {
         displayTransactions(matchedTransactions);
     }
 
+    // miscellaneous
     public static double promptForDouble(String prompt) {
         while (true) {
             System.out.print(prompt);
